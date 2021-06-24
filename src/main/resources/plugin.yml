@@ -1,0 +1,9 @@
+name: Sumo
+version: 1.0.0
+main: net.vergessxner.sumo.Sumo
+api-version: 1.17
+authors: [ Jonas ]
+
+commands:
+  start:
+  sumo:
