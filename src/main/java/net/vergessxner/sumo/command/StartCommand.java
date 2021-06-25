@@ -47,7 +47,7 @@ public class StartCommand implements CommandExecutor {
             }
 
             lobbyState.getLobbyCountdown().setTime(10);
-            player.sendMessage(Sumo.PREFIX + "§7Du hast erfolgreich das Spiel auf §210 Sekunden gesetzt!");
+            player.sendMessage(Sumo.PREFIX + "§7Du hast erfolgreich das Spiel auf §210 §7Sekunden gesetzt!");
 
         } else player.sendMessage(Sumo.PREFIX + "§cDu hast keine Berechtigung diesen Command auszuführen");
 

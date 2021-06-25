@@ -1,7 +1,6 @@
 package net.vergessxner.sumo.utils.gamestates.countdown;
 
 import net.vergessxner.sumo.Sumo;
-import net.vergessxner.sumo.utils.gamestates.states.InGameState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -12,9 +11,9 @@ import org.bukkit.scheduler.BukkitTask;
  * Created: 24 Juni 2021
  */
 
-public class LobbyCountdown implements ICountdown {
+public class EndingCountdown implements ICountdown {
 
-    private static final int FINAL_SECONDS = 60;
+    private static final int FINAL_SECONDS = 10;
 
     private BukkitTask bukkitTask;
     private int seconds = 0;
@@ -23,22 +22,23 @@ public class LobbyCountdown implements ICountdown {
     public void start() {
         seconds = FINAL_SECONDS;
 
-        bukkitTask = new BukkitRunnable() {
+        bukkitTask = new BukkitRunnable(){
             @Override
             public void run() {
                 switch (seconds) {
-                    case 60: case 30: case 15: case 10: case 5: case 4: case 3: case 2:
-                        Bukkit.broadcastMessage(Sumo.PREFIX + "§7Das Spiel startet in §2" + seconds + "§7 Sekunden.");
+                    case 20: case 10: case 5: case 4: case 3: case 2:
+                        Bukkit.broadcastMessage(Sumo.PREFIX + "§7Der Server wird in §c" + seconds + " §7gestoppt!");
                         break;
                     case 1:
-                        Bukkit.broadcastMessage(Sumo.PREFIX + "§7Das Spiel §2startet §7nun");
-                        Sumo.getInstance().getGameStateManager().startGameState(InGameState.class);
+                        Bukkit.broadcastMessage(Sumo.PREFIX + "§7Der Server wird §cjetzt §7gestoppt!");
+                        Bukkit.shutdown();
                         break;
                 }
 
                 for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                     onlinePlayer.setLevel(seconds);
                 }
+
                 seconds--;
             }
         }.runTaskTimerAsynchronously(Sumo.getInstance(), 0, 20);
@@ -46,12 +46,9 @@ public class LobbyCountdown implements ICountdown {
 
     @Override
     public void stop() {
-        if(bukkitTask != null) bukkitTask.cancel();
+        if(bukkitTask != null && !bukkitTask.isCancelled())
+            bukkitTask.cancel();
         bukkitTask = null;
-
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            onlinePlayer.setLevel(0);
-        }
     }
 
     @Override
@@ -69,4 +66,5 @@ public class LobbyCountdown implements ICountdown {
         if(bukkitTask == null) return false;
         return !bukkitTask.isCancelled();
     }
+
 }

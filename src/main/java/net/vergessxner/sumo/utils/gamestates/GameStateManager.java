@@ -1,5 +1,9 @@
 package net.vergessxner.sumo.utils.gamestates;
 
+import net.vergessxner.sumo.Sumo;
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitTask;
+
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -15,11 +19,11 @@ public class GameStateManager {
         try {
             IGameStates gameStates = (IGameStates) clazz.getConstructors()[0].newInstance();
 
-            if(currentGameState != null) currentGameState.stop();
+            stopCurrentGameState();
 
             currentGameState = gameStates;
 
-            currentGameState.start();
+            Bukkit.getScheduler().runTask(Sumo.getInstance(), currentGameState::start);
             System.out.println("GameState " + currentGameState.getClass().getSimpleName() + " started");
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
@@ -29,7 +33,7 @@ public class GameStateManager {
 
     public void stopCurrentGameState() {
         if(currentGameState != null) {
-            currentGameState.stop();
+            Bukkit.getScheduler().runTask(Sumo.getInstance(), currentGameState::stop);
             System.out.println("GameState " + currentGameState.getClass().getSimpleName() + " stopped");
         }
     }
@@ -37,4 +41,5 @@ public class GameStateManager {
     public IGameStates getCurrentGameState() {
         return currentGameState;
     }
+
 }

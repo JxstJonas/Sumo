@@ -10,4 +10,7 @@ public interface IGameStates {
     void start();
     void stop();
 
+    //Wird nur benötigt um ein ausscheiden beim Teleport zu vermeiden
+    boolean isFullyRunning();
+
 }

@@ -15,18 +15,30 @@ public class LobbyState implements IGameStates {
     private ICountdown searchCountdown;
     private ICountdown lobbyCountdown;
 
+    private boolean running = false;
+
     @Override
     public void start() {
         searchCountdown = new SearchCountdown();
         lobbyCountdown = new LobbyCountdown();
 
         searchCountdown.start();
+
+        running = true;
     }
 
     @Override
     public void stop() {
+        running = false;
+
         searchCountdown.stop();
         lobbyCountdown.stop();
+
+    }
+
+    @Override
+    public boolean isFullyRunning() {
+        return running;
     }
 
     public ICountdown getSearchCountdown() {

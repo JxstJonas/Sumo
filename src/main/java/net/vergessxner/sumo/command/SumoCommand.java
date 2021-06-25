@@ -7,14 +7,18 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jonas H.
  * Created: 24 Juni 2021
  */
 
-public class SumoCommand implements CommandExecutor {
+public class SumoCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -49,17 +53,34 @@ public class SumoCommand implements CommandExecutor {
                         Sumo.getInstance().getConfigLoader().set(storage);
                         player.sendMessage(Sumo.PREFIX + "§7Du hast den §2Spec-Spawn §7gesetzt!");
                         break;
-                    default:
-                        player.sendMessage("§7Vewende §2/sumo setup [lobbySpawn/InGameSpawn/SpecSpawn]");
+                    case "deathheight":
+                        storage.setDeathHeight(player.getLocation().getY());
+                        Sumo.getInstance().getConfigLoader().set(storage);
+                        player.sendMessage(Sumo.PREFIX + "§7Du hast den §2DeathHeight-Spawn §7gesetzt!");
                         break;
-
+                    default:
+                        player.sendMessage("§7Vewende §2/sumo setup [lobbySpawn/InGameSpawn/SpecSpawn/DeathHeight]");
+                        break;
                 }
 
             }
-
-            //Usage
-            player.sendMessage("§7Vewende §2/sumo setup [lobbySpawn/InGameSpawn/SpecSpawn]");
         } else player.sendMessage(Sumo.PREFIX + "§cDu hast keine Berechtigung diesen Command auszuführen");
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        ArrayList<String> list = new ArrayList<>();
+
+        if(args.length == 1) list.add("setup");
+
+        if(args.length == 2) {
+            list.add("lobbySpawn");
+            list.add("InGameSpawn");
+            list.add("SpecSpawn");
+            list.add("DeathHeight");
+        }
+
+        return list;
     }
 }

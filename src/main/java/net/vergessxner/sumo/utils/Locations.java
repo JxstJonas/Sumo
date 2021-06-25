@@ -13,6 +13,16 @@ public class Locations {
     private MinecraftLocation inGameSpawn;
     private MinecraftLocation specSpawn;
 
+    private double deathHeight;
+
+    public double getDeathHeight() {
+        return deathHeight;
+    }
+
+    public void setDeathHeight(double deathHeight) {
+        this.deathHeight = deathHeight;
+    }
+
     public MinecraftLocation getLobbySpawn() {
         return lobbySpawn;
     }

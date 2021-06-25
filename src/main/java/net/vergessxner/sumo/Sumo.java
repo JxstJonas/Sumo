@@ -2,7 +2,7 @@ package net.vergessxner.sumo;
 
 import net.vergessxner.sumo.command.StartCommand;
 import net.vergessxner.sumo.command.SumoCommand;
-import net.vergessxner.sumo.listener.ConnectListener;
+import net.vergessxner.sumo.listener.*;
 import net.vergessxner.sumo.utils.Locations;
 import net.vergessxner.sumo.utils.gamestates.GameStateManager;
 import net.vergessxner.sumo.utils.gamestates.states.LobbyState;
@@ -25,13 +25,21 @@ public final class Sumo extends JavaPlugin {
     public void onEnable() {
         gameStateManager.startGameState(LobbyState.class);
 
-
         //Listener
         getServer().getPluginManager().registerEvents(new ConnectListener(), this);
+        getServer().getPluginManager().registerEvents(new MoveListener(), this);
+        getServer().getPluginManager().registerEvents(new TrowSlimeBall(), this);
+        getServer().getPluginManager().registerEvents(new DefaultListener(), this);
+        getServer().getPluginManager().registerEvents(new ClickListener(), this);
+
+        new TrowSlimeBall().start();
 
         //Commands
         getCommand("start").setExecutor(new StartCommand());
         getCommand("sumo").setExecutor(new SumoCommand());
+
+        //Tab Complete
+        getCommand("sumo").setTabCompleter(new SumoCommand());
     }
 
     @Override
