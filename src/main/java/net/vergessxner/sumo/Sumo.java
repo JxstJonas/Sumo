@@ -4,6 +4,7 @@ import net.vergessxner.sumo.command.StartCommand;
 import net.vergessxner.sumo.command.SumoCommand;
 import net.vergessxner.sumo.listener.*;
 import net.vergessxner.sumo.utils.Locations;
+import net.vergessxner.sumo.utils.TeamManager;
 import net.vergessxner.sumo.utils.gamestates.GameStateManager;
 import net.vergessxner.sumo.utils.gamestates.states.LobbyState;
 import net.vergessxner.sumo.utils.helpers.ConfigLoader;
@@ -18,6 +19,7 @@ public final class Sumo extends JavaPlugin {
     private static Sumo instance;
 
     private GameStateManager gameStateManager;
+    private TeamManager teamManager;
     private ConfigLoader<Locations> configLoader;
 
 
@@ -64,6 +66,8 @@ public final class Sumo extends JavaPlugin {
         }
         configLoader = new ConfigLoader<>(file, Locations.class);
         Sumo.getInstance().getConfigLoader().load();
+
+        teamManager = new TeamManager();
     }
 
     public static Sumo getInstance() {
@@ -72,6 +76,10 @@ public final class Sumo extends JavaPlugin {
 
     public ConfigLoader<Locations> getConfigLoader() {
         return configLoader;
+    }
+
+    public TeamManager getTeamManager() {
+        return teamManager;
     }
 
     public GameStateManager getGameStateManager() {

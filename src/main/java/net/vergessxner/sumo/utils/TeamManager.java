@@ -14,9 +14,9 @@ import java.util.ArrayList;
 
 public class TeamManager {
 
-    public static final ArrayList<Player> spectators = new ArrayList<>();
+    public final ArrayList<Player> spectators = new ArrayList<>();
 
-    public static void switchToSpectator(Player player) {
+    public void switchToSpectator(Player player) {
         spectators.add(player);
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             if(!spectators.contains(onlinePlayer)) onlinePlayer.hidePlayer(Sumo.getInstance(), player);

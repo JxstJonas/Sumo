@@ -26,18 +26,18 @@ public class MoveListener implements Listener {
         //Check if Player is under Death Height
         if(Sumo.getInstance().getGameStateManager().getCurrentGameState() instanceof InGameState && Sumo.getInstance().getGameStateManager().getCurrentGameState().isFullyRunning()) {
             if(player.getLocation().getY() <= Sumo.getInstance().getConfigLoader().getConfig().getDeathHeight()
-            && !TeamManager.spectators.contains(player)) {
+            && !Sumo.getInstance().getTeamManager().spectators.contains(player)) {
 
-                TeamManager.switchToSpectator(player);
+                Sumo.getInstance().getTeamManager().switchToSpectator(player);
                 Bukkit.broadcastMessage(Sumo.PREFIX + "§7" + player.getName() + "§c ist ausgeschieden");
 
 
                 //Winning Check
-                if(Bukkit.getOnlinePlayers().size() - TeamManager.spectators.size() == 1) {
+                if(Bukkit.getOnlinePlayers().size() - Sumo.getInstance().getTeamManager().spectators.size() == 1) {
                     //Get Winner
                     Player winner = null;
                     for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                        if(!TeamManager.spectators.contains(onlinePlayer)){
+                        if(!Sumo.getInstance().getTeamManager().spectators.contains(onlinePlayer)){
                             winner = onlinePlayer;
 
                             onlinePlayer.sendTitle("§6Gewonnen", "", 5, 20, 10);

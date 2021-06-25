@@ -2,7 +2,6 @@ package net.vergessxner.sumo.listener;
 
 import net.vergessxner.sumo.Sumo;
 import net.vergessxner.sumo.utils.Settings;
-import net.vergessxner.sumo.utils.TeamManager;
 import net.vergessxner.sumo.utils.gamestates.IGameStates;
 import net.vergessxner.sumo.utils.gamestates.states.EndingState;
 import net.vergessxner.sumo.utils.gamestates.states.InGameState;
@@ -15,7 +14,6 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -76,7 +74,7 @@ public class ConnectListener implements Listener {
 
             join(player);
         } else if(gamestate instanceof InGameState) {
-            TeamManager.switchToSpectator(player);
+            Sumo.getInstance().getTeamManager().switchToSpectator(player);
             player.sendMessage(Sumo.PREFIX + "§7Du kannst nur das Spielgeschehen beobachten.");
         }else if(gamestate instanceof EndingState) {
             join(player);
@@ -105,14 +103,14 @@ public class ConnectListener implements Listener {
                 player.sendMessage(Sumo.PREFIX + "§7Der Countdown wurde §cabgebrochen§7!");
             }
         } else if(gamestate instanceof InGameState) {
-            if(TeamManager.spectators.contains(player)) return;
+            if(Sumo.getInstance().getTeamManager().spectators.contains(player)) return;
 
             //Checking whether the match has been won
-            if(Bukkit.getOnlinePlayers().size() - (TeamManager.spectators.size() + 1) == 1) {
+            if(Bukkit.getOnlinePlayers().size() - (Sumo.getInstance().getTeamManager().spectators.size() + 1) == 1) {
                 //Get Winner
                 Player winner = null;
                 for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                    if(!TeamManager.spectators.contains(onlinePlayer)){
+                    if(!Sumo.getInstance().getTeamManager().spectators.contains(onlinePlayer)){
                         if(player.equals(onlinePlayer)) continue;
                         winner = onlinePlayer;
 
